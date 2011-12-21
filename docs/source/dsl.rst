@@ -95,4 +95,3 @@ To implement new functions, one needs to derive from the base class:
 
 .. autoclass:: dynts.dsl.FunctionBase
    :members:
-   

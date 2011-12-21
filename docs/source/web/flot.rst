@@ -13,4 +13,3 @@ Flot Data
 .. autoclass:: dynts.web.flot.Flot
    :members:
    :member-order: bysource
-   

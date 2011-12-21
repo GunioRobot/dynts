@@ -62,4 +62,3 @@ Registration is obtained simply::
 	['MYCUSTOMPROVIDER', 'GOOGLE', 'YAHOO']
 
 	 
-	 

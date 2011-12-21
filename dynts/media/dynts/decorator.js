@@ -1,18 +1,18 @@
 /**
  * Decorator function for djpcms
- * 
+ *
  * @requires djpcms 0.9
- * 
+ *
  * See http://github.com/lsbardel/djpcms
- * 
+ *
  */
 
 (function($) {
     /**
      * DJPCMS Decorator for Econometric ploting
-     */    
+     */
     if($.fn.sparkline) {
-        
+
     	$.djpcms.decorator({
     		id: "sparkline",
             config: {
@@ -31,12 +31,12 @@
 	            });
             }
         });
-    	
+
     }
 
 
     if($.plot) {
-            
+
         $.djpcms.decorator({
             id:"econometric_plot",
             decorate: function(elem,config) {
@@ -59,11 +59,11 @@
                             return res.plots;
                         }
                     };
-                    
+
                 function errorback(data,instance) {
                     $.djpcms.jsonParse(data,instance.container());
                 }
-                
+
                 $(selector,elem).each(function() {
                     var start,
                         el = $(this),
@@ -79,5 +79,5 @@
             }
         });
     }
-    
+
 }(jQuery));

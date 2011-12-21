@@ -18,7 +18,7 @@ In the following list we assume the following shortcuts:
 	\Delta^2 x_t &= \Delta_1^2 x_t = \Delta_1 x_t - \Delta_1 x_{t-1}
 
 
-The function documentation is build from the source code, using the sphinx 
+The function documentation is build from the source code, using the sphinx
 macro ``dyntslist`` defined in :mod:`dynts.web.dyntsx`.
 
 

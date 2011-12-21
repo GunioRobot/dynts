@@ -1,10 +1,10 @@
-/* 
+/*
  * Econometric Ploting JavaScript Library version @VERSION
- * 
+ *
  * @requires jQuery v1.6.1 or Later
  * @requires jQuery-UI v1.8 or Later
  * @requires Flot v0.7 or Later
- * 
+ *
  * Date: @DATE
  *
  */
@@ -21,7 +21,7 @@ plots, you can just fix the size of their placeholders.
 */
 
 
-/* Inline dependency: 
+/* Inline dependency:
  * jQuery resize event - v1.1 - 3/14/2010
  * http://benalman.com/projects/jquery-resize-plugin/
  */
@@ -41,30 +41,30 @@ plots, you can just fix the size of their placeholders.
         });
         return c;
     };
-    
+
     /*
 	 * Usage Note: -----------
-	 * 
+	 *
 	 * $('.ploting-elems').ecoplot(options);
-	 * 
+	 *
 	 * options is an object containing several input parameters. All parameters
 	 * have sensible default values apart from one which needs to supplied.
-	 * 
+	 *
 	 * url: String for the remote data provider URL.
-	 * 
+	 *
 	 * The most common options are:
-	 * 
+	 *
 	 * flot_options: Object containing Flot-specific options dates: Object for
 	 * specifying how dates are displayed
-	 */    
+	 */
     $.ecoplot = (function () {
-        
+
         function console_logger(msg) {
             if (typeof console !== "undefined" && typeof console.debug !== "undefined") {
                 console.log(msg);
             }
         }
-        
+
         var version = "0.4.2",
             authors = 'Luca Sbardella',
             home_page = 'https://github.com/quantmind/dynts',
@@ -79,7 +79,7 @@ plots, you can just fix the size of their placeholders.
                 log: function (msg,level) {console_logger(msg);},
                 info : function (msg) {console_logger(msg);},
                 debug : function (msg) {console_logger(msg);},
-                error : function (msg) {console_logger(msg);}                
+                error : function (msg) {console_logger(msg);}
             },
             tools = {
                   'legend': {
@@ -125,8 +125,8 @@ plots, you can just fix the size of their placeholders.
                classname: 'ts-plot-module',
                errorClass: 'dataErrorMessage'
            };
-        
-        
+
+
         // /////////////////////////////////////////////////////
         // DEFAULT PAGINATION
         //
@@ -147,7 +147,7 @@ plots, you can just fix the size of their placeholders.
             instance.canvas_container().height(h-10).css({'margin':'5px 0'});
             container.height('auto');
         }
-           
+
         function _addelement(el,holder) {
             var id  = el.id.toLowerCase();
             var p   = holder[id];
@@ -162,7 +162,7 @@ plots, you can just fix the size of their placeholders.
             $.extend(true, options, defaults, options_);
             return options;
         }
-        
+
         function make_instance(index_, container_, settings_) {
         	var _layouts = [],
         		_inputs = [],
@@ -187,7 +187,7 @@ plots, you can just fix the size of their placeholders.
 	                	return d;
 	                }
             	};
-        	
+
         	function make_function (fname,func) {
                 if(fname.charAt(0) == '_') {
                     return func;
@@ -204,13 +204,13 @@ plots, you can just fix the size of their placeholders.
                     };
                 }
             }
-        	
+
         	// Add plugins
             $.each(settings_.plugins, function (i,name) {
                 var extension = plugins[name];
                 if(extension) {
                 	$.ecoplot.log.debug('Processing plugin '+name+' on instance '+index_);
-                    instance.data[name] = $.extend({},extension.data || {});                    
+                    instance.data[name] = $.extend({},extension.data || {});
                     $.each(extension,function (fname,elem) {
                         if(fname == 'init') {
                             elem.apply(instance);
@@ -230,7 +230,7 @@ plots, you can just fix the size of their placeholders.
                     });
                 }
             });
-            
+
             return instance;
         }
         /**
@@ -238,7 +238,7 @@ plots, you can just fix the size of their placeholders.
 		 */
         function _construct(options_) {
             var options = _parseOptions(options_);
-            
+
             // Loop over each element and initialize the jquery plugin.
             return this.each(function (i) {
                 var $this = $(this),
@@ -251,7 +251,7 @@ plots, you can just fix the size of their placeholders.
                 $this.data(idkey,instance_id)
                      .attr({'id':plugin_class+"_"+instance_id})
                      .addClass(plugin_class);
-                
+
                 instance = instances[instance_id] = make_instance(
                         instance_id,$this, options);
                 instance.paginate();
@@ -272,7 +272,7 @@ plots, you can just fix the size of their placeholders.
             instance: function (elem) {
                 // get by instance id
                 if(instances[elem]) { return instances[elem]; }
-                var o = $(elem); 
+                var o = $(elem);
                 if(!o.length && typeof elem === "string") { o = $("#" + elem); }
                 if(!o.length) { return null; }
                 return instances[o.closest("."+plugin_class)
@@ -317,7 +317,7 @@ plots, you can just fix the size of their placeholders.
     $.fn.extend({
         ecoplot: $.ecoplot.construct
     });
-    
+
 
     // Resizing plugin for flot
     $.plot.plugins.push({
@@ -338,7 +338,7 @@ plots, you can just fix the size of their placeholders.
                 plot.setupGrid();
                 plot.draw();
             }
-            
+
             function bindEvents(plot, eventHolder) {
                 plot.getPlaceholder().resize(onResize);
             }
@@ -346,45 +346,45 @@ plots, you can just fix the size of their placeholders.
             function shutdown(plot, eventHolder) {
                 plot.getPlaceholder().unbind("resize", onResize);
             }
-            
+
             plot.hooks.bindEvents.push(bindEvents);
             plot.hooks.shutdown.push(shutdown);
         }
     });
-    
-    
+
+
     /*========================================================================
-     * 
+     *
      * PLUGINS
      * An ecoplot plugin is created in the following way:
-     * 
-     * 
+     *
+     *
      * 		$.ecoplot.plugin(plugin_name,{
      * 								defaults : {...},
      * 								data: {...},
      * 								init: function() {...},
      * 								layout: function() {...}
      * 							});
-     * 
-     * 
+     *
+     *
      *  - data
-     *  
+     *
      *  An object which is added to the instance.data object so that
      *  instance.data.plugin_name will contain its value.
      *  It can be used to store dynamic data for the plugin.
-     *  
+     *
      *  - layout
-     *  
+     *
      *  An optional function, which will be called, if availale, during the
      *  layout of the ecoplot instance.
      */
-    
-    
+
+
     /*================================================================
-     * 
+     *
      * Menu plugin
-     * 
-     * 
+     *
+     *
      */
     $.ecoplot.plugin('menu',{
         isdefault: true,
@@ -407,7 +407,7 @@ plots, you can just fix the size of their placeholders.
     		menu.container = mc.addClass(omenu.container_class);
     	}
     });
-    
+
     // ////////////////////////////////////////////////////////////////////////////
     // Canvases plugin
     // This is the main plugin which adds the standard plotting functionalities
@@ -526,7 +526,7 @@ plots, you can just fix the size of their placeholders.
                 cid = $this.attr('id') + '-canvas' + idx,
                 foptions = $.extend(true, {}, options.flot_options, data.options),
                 cv;
-            
+
             if(!outer) {
                 outer = $('div',this.canvas_container());
             }
@@ -534,12 +534,12 @@ plots, you can just fix the size of their placeholders.
                 $('<ul></ul>').appendTo(outer);
             }
             $('ul',outer).append($('<li><a href="#' + cid + '">' + name + '</a></li>'));
-            
+
             if(oldcanvas && oldcanvas.options.xaxis.mode === mtyp) {
                 var ole = oldcanvas.options.legend;
                 this._set_legend_position(oldcanvas);
                 oldcanvas.name = name;
-                oldcanvas.oseries = oldcanvas.series; 
+                oldcanvas.oseries = oldcanvas.series;
                 oldcanvas.series = data.series;
                 oldcanvas.flot = null;
                 foptions = $.extend(foptions, oldcanvas.options);
@@ -566,7 +566,7 @@ plots, you can just fix the size of their placeholders.
                 oldcanvases = canvases.all,
                 datac,typ;
             canvases.all = [];
-            
+
             function oldcanvas(c) {
                 if(oldcanvases.length > c) {
                     return oldcanvases[c];
@@ -677,7 +677,7 @@ plots, you can just fix the size of their placeholders.
             }
         }
     });
-    
+
 
     // /////////////////////////////////////////////////
     // plugin for loading data via ajax
@@ -796,8 +796,8 @@ plots, you can just fix the size of their placeholders.
             this.replace_all_canvases(data);
         }
     });
-    
-    
+
+
     $.ecoplot.plugin('zoom',{
         isdefault: true,
         tools: {
@@ -849,8 +849,8 @@ plots, you can just fix the size of their placeholders.
             this.canvas_render(null,opts);
         }
     });
-    
-    
+
+
     $.ecoplot.plugin('dialog', {
         isdefault: true,
         dialog: function (title,body,opts) {
@@ -861,7 +861,7 @@ plots, you can just fix the size of their placeholders.
             }).dialog('open');
         }
     });
-    
+
     $.ecoplot.plugin('image',{
         defaults: {
             title: 'Save as image',
@@ -937,7 +937,7 @@ plots, you can just fix the size of their placeholders.
         saveimage: function (strType, xdim, ydim) {
             var target = this.get_canvas(),
                 canvas,oImg;
-            
+
             if(!target) {return;}
 
             canvas = target.flot.getCanvas();
@@ -957,25 +957,25 @@ plots, you can just fix the size of their placeholders.
             return oImg;
         }
     });
-    
-    
+
+
     /*
 	 * =================================================================
 	 * EDIT plugin - Plugin for editing series
-	 * 
+	 *
 	 * To customize pass the edit dictionary in the ecoplot options
-	 * 
+	 *
 	 * $(#myplot).ecomplot({..., edit: {popup: true, ...} });
-	 * 
+	 *
 	 * Options:
-	 * 
+	 *
 	 * container: the html container of the options panel. Default null popup:
 	 * If true a jquery dialog will be used to display options
-	 * 
-	 * 
-	 * 
+	 *
+	 *
+	 *
 	 */
-    
+
     $.ecoplot.plugin('edit',{
         isdefault: true,
         defaults: {
@@ -1042,13 +1042,13 @@ plots, you can just fix the size of their placeholders.
         		edit = this.data.edit,
         		c = $(options.container);
         		in_canvas = true;
-        		
+
         	if(!c.length) {
         		in_canvas = true;
         		c = $('<div></div>').appendTo(this.data.canvases.secondary);
         	}
         	edit.container = c.addClass(edit.container_class);
-        	
+
         	if(options.popup) {
         		var position = options.popup.position || ['right','top'];
         		c = c.dialog({title:options.title,
@@ -1172,11 +1172,11 @@ plots, you can just fix the size of their placeholders.
                 edit_panel = this.edit_panel(idx,true),
                 colspan = edit.headers.length,
                 series_container;
-            
+
             if(!edit_panel.length) {
                 return;
             }
-            
+
             if(!canvas.oseries) {
                 $.ecoplot.log.debug('Creating editing panel.');
                 edit_panel.children().remove();
@@ -1231,7 +1231,7 @@ plots, you can just fix the size of their placeholders.
             	}
             	return inp;
             }
-            
+
             function tdinp(i,type,name,value,tag,checked,w) {
                 var inp = makeinp(i,type,name,value,checked);
                 if(tag) {
@@ -1247,7 +1247,7 @@ plots, you can just fix the size of their placeholders.
                 	return inp;
                 }
             }
-            
+
             function checkmedia(med,show) {
                 if(med) {
                     if(med.show === undefined) {
@@ -1259,7 +1259,7 @@ plots, you can just fix the size of their placeholders.
                 }
                 return med;
             }
-            
+
             $.each(canvas.series, function (i,serie) {
                 var oserie = null,
                     shadow, radio;
@@ -1298,7 +1298,7 @@ plots, you can just fix the size of their placeholders.
                 tr.append(tdinp(i,'checkbox','bars','bars', 'td', serie.bars.show, serie.bars.barWidth || 3));
                 $('<td></td>').append(shadow).appendTo(tr);
                 tr.append(tdinp(i,'checkbox','fill','fill', 'td', serie.lines.fill));
-                
+
                 // Axis radio button
                 $('<div></div>').appendTo($('<td></td>').appendTo(tr))
                 				.append(makeinp(i+'1','radio','axis'+i,'y-ax1',serie.yaxis ? serie.yaxis===1 : i===0,'1'))
@@ -1308,7 +1308,7 @@ plots, you can just fix the size of their placeholders.
             return canvas;
         }
     });
-    
+
 
     $.ecoplot.plugin('tooltip',{
         isdefault: true,
@@ -1323,17 +1323,17 @@ plots, you can just fix the size of their placeholders.
                 var instance = $.ecoplot.instance(this),
                     previous = instance.data.tooltip.previous,
                     flot = instance.get_canvas().flot;
-                
+
                 if(pos.x || pos.y) {
                     instance.displayposition(pos.x.toFixed(2),pos.y.toFixed(2));
                 }
-                
+
                 if(flot.getSelection && flot.getSelection()) {
                     return;
                 }
-                
+
                 if(item) {
-                    if(!previous || 
+                    if(!previous ||
                        (previous.dataIndex !== item.dataIndex ||
                         previous.seriesIndex !== item.seriesIndex)) {
                         var text = instance.tooltipText(item);
@@ -1364,7 +1364,7 @@ plots, you can just fix the size of their placeholders.
                     v = parseFloat(v);
                 }
                 v = new Date(v);
-                return $.datepicker.formatDate(options.dates.format, v); 
+                return $.datepicker.formatDate(options.dates.format, v);
             }
             if(d.length === 3) {
                 var v = d[2],
@@ -1491,7 +1491,7 @@ plots, you can just fix the size of their placeholders.
         	}
         }
     });
-    
+
 
     $.ecoplot.plugin('dates',{
         isdefault: true,
@@ -1531,8 +1531,8 @@ plots, you can just fix the size of their placeholders.
                 defaultDate: +0,
                 showStatus: true,
                 beforeShowDay: $.datepicker.noWeekends,
-                dateFormat: options.format, 
-                firstDay: 1, 
+                dateFormat: options.format,
+                firstDay: 1,
                 changeFirstDay: false
             });
         },
@@ -1577,7 +1577,7 @@ plots, you can just fix the size of their placeholders.
             var plugins = this.settings().plugins,
                 options = this.settings().toolbar,
             	container = $('<div></div>').addClass(options.classname);
-            
+
             if(options.render_as == 'buttons') {
             	var inner = $('<span></span>').appendTo(container);
             	this.data.toolbar.container = inner;
@@ -1588,13 +1588,13 @@ plots, you can just fix the size of their placeholders.
             else {
             	this.data.toolbar.container = container.hide();
             }
-            
+
             this.container().bind('ecoplot-ready', function(e,instance) {
             	var options = instance.settings().toolbar,
             		toolbar = instance.data.toolbar,
             		container = toolbar.container,
             		cid = instance.container().attr('id');
-            	
+
             	$.each(options.display, function (i,name) {
 	                var menu = $.ecoplot.tool(name);
 	                if(menu && plugins.indexOf(menu.plugin) !== -1) {
@@ -1614,7 +1614,7 @@ plots, you can just fix the size of their placeholders.
 	                        }
 	                        ico = {};
 	                        if(menu.icon) {
-	                            ico.primary = menu.icon;  
+	                            ico.primary = menu.icon;
 	                        }
 	                        tel.button({
 	                            text: menu.text || false,
@@ -1629,12 +1629,12 @@ plots, you can just fix the size of their placeholders.
 	                    $.ecoplot.info('Menu '+name+' not available.');
 	                }
 	            });
-            	
+
             });
         }
     });
-    
-    
+
+
     $.ecoplot.plugin('resizable', {
         isdefault: true,
     	defaults: {
@@ -1647,8 +1647,8 @@ plots, you can just fix the size of their placeholders.
     		}
     	}
     });
-    
-    
+
+
     $.ecoplot.plugin('about', {
         tools: {
             about: {
@@ -1676,14 +1676,14 @@ plots, you can just fix the size of their placeholders.
             }
         }
     });
-    
+
     // /////////////////////////////////////////////////
     // Excel like functionality.
     // /////////////////////////////////////////////////
     //$.ecoplot.shiftf9 = function () {
     //    $(document).bind('keydown','Shift+f9', function (event) {
     //        $('.'+$.ecoplot.plugin_class).each(function () {
-    //            var $this = $(this); 
+    //            var $this = $(this);
     //            $this.trigger("load");
     //            this.options.elems.commandline.bind('keydown','Shift+f9', function (event) {
     //                $this.trigger("load");

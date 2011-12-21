@@ -217,4 +217,4 @@ Here we describe the internal functions which are not exposed via the API.
 	
 .. js:function:: _editpannel
 
-	for creating editing panels 
+	for creating editing panels

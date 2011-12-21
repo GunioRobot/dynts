@@ -32,4 +32,4 @@ Iterators
 ================================
 
 .. automodule:: dynts.utils.iterators
-   :members:  
+   :members:

@@ -3,45 +3,45 @@
 * jquery.sparkline.js
 *
 * v1.6
-* (c) Splunk, Inc 
+* (c) Splunk, Inc
 * Contact: Gareth Watts (gareth@splunk.com)
 * http://omnipotent.net/jquery.sparkline/
 *
 * Generates inline sparkline charts from data supplied either to the method
 * or inline in HTML
-* 
+*
 * Compatible with Internet Explorer 6.0+ and modern browsers equipped with the canvas tag
 * (Firefox 2.0+, Safari, Opera, etc)
 *
 * License: New BSD License
-* 
+*
 * Copyright (c) 2010, Splunk Inc.
 * All rights reserved.
-* 
-* Redistribution and use in source and binary forms, with or without modification, 
-* are permitted provided that the following conditions are met:
-* 
-*     * Redistributions of source code must retain the above copyright notice, 
-*       this list of conditions and the following disclaimer.
-*     * Redistributions in binary form must reproduce the above copyright notice, 
-*       this list of conditions and the following disclaimer in the documentation 
-*       and/or other materials provided with the distribution.
-*     * Neither the name of Splunk Inc nor the names of its contributors may 
-*       be used to endorse or promote products derived from this software without 
-*       specific prior written permission.
-* 
-* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY 
-* EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES 
-* OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT 
-* SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
-* SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
-* OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
-* HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, 
-* OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-* SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-* 
 *
-* Usage: 
+* Redistribution and use in source and binary forms, with or without modification,
+* are permitted provided that the following conditions are met:
+*
+*     * Redistributions of source code must retain the above copyright notice,
+*       this list of conditions and the following disclaimer.
+*     * Redistributions in binary form must reproduce the above copyright notice,
+*       this list of conditions and the following disclaimer in the documentation
+*       and/or other materials provided with the distribution.
+*     * Neither the name of Splunk Inc nor the names of its contributors may
+*       be used to endorse or promote products derived from this software without
+*       specific prior written permission.
+*
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+* EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+* OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+* SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+* SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+* OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+* HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+* OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+* SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*
+*
+* Usage:
 *  $(selector).sparkline(values, options)
 *
 * If values is undefined or set to 'html' then the data values are read from the specified tag:
@@ -86,7 +86,7 @@
 *           another chart over the top - Note that width and height are ignored if an
 *           existing chart is detected.
 *   tagValuesAttribute - Name of tag attribute to check for data values - Defaults to 'values'
-*   enableTagOptions - Whether to check tags for sparkline options 
+*   enableTagOptions - Whether to check tags for sparkline options
 *   tagOptionPrefix - Prefix used for options supplied as tag attributes - Defaults to 'spark'
 *
 * There are 7 types of sparkline, selected by supplying a "type" option of 'line' (default),
@@ -97,7 +97,7 @@
 *       maxSpotColor - If set, color of spot at maximum value
 *       spotRadius - Radius in pixels
 *       lineWidth - Width of line in pixels
-*       normalRangeMin 
+*       normalRangeMin
 *       normalRangeMax - If set draws a filled horizontal bar between these two values marking the "normal"
 *                      or expected range of values
 *       normalRangeColor - Color to use for the above bar
@@ -155,9 +155,9 @@
 *       spotRadius - Radius of outlier circles
 *       medianColor - Line color of the median line
 *       target - Draw a target cross hair at the supplied value (default undefined)
-*      
-*   
-*       
+*
+*
+*
 *   Examples:
 *   $('#sparkline1').sparkline(myvalues, { lineColor: '#f00', fillColor: false });
 *   $('.barsparks').sparkline('html', { type:'bar', height:'40px', barWidth:5 });
@@ -180,7 +180,7 @@
             lineColor : '#00f',
             fillColor : '#cdf',
             defaultPixelsPerValue : 3,
-            width : 'auto', 
+            width : 'auto',
             height : 'auto',
             composite : false,
             tagValuesAttribute: 'values',
@@ -193,7 +193,7 @@
             spotRadius : 1.5,
             minSpotColor : '#f80',
             maxSpotColor : '#f80',
-            lineWidth: 1, 
+            lineWidth: 1,
             normalRangeMin : undefined,
             normalRangeMax : undefined,
             normalRangeColor : '#ccc',
@@ -272,7 +272,7 @@
         if (use_existing && this[0].VCanvas) {
             return this[0].VCanvas;
         }
-        if (width === undefined) { 
+        if (width === undefined) {
             width=$(this).innerWidth();
         }
         if (height === undefined) {
@@ -321,7 +321,7 @@
 
                 $.fn.sparkline[options.get('type')].call(this, values, options, width, height);
             };
-            
+
             render.call(this);
             // jQuery 1.3.0 completely changed the meaning of :hidden :-/
             //if (($(this).html() && $(this).is(':hidden')) || ($.fn.jquery < "1.3.0" && $(this).parents().is(':hidden')) || !$(this).parents('body').length) {
@@ -380,7 +380,7 @@
         var defaults = $.fn.sparkline.defaults;
         var base = defaults.common;
         this.tagOptionsPrefix = userOptions.enableTagOptions && (userOptions.tagOptionsPrefix || base.tagOptionsPrefix);
-            
+
         var tagOptionType = this.getTagSetting('type');
         if (tagOptionType === UNSET_OPTION) {
             extendedOptions = defaults[userOptions.type || base.type];
@@ -419,7 +419,7 @@
             }
             this.tagValCache.key = val;
         }
-        return val; 
+        return val;
     };
 
     $.fn.sparkline.options.prototype.get = function(key) {
@@ -590,7 +590,7 @@
                 // if there's only a single point in this path, then we want to display it as a vertical line
                 // which means we keep path[0]  as is
                 if (path.length>2) {
-                    // else we want the first value 
+                    // else we want the first value
                     path[0] = [ path[0][0], path[1][1] ];
                 }
                 lineshapes.push(path);
@@ -610,7 +610,7 @@
             for(i=0; i<plen; i++) {
                 target.drawShape(lineshapes[i], options.get('lineColor'), undefined, options.get('lineWidth'));
             }
-                
+
             if (spotRadius && options.get('spotColor')) {
                 target.drawCircle(canvas_left+Math.round(xvalues[xvalues.length-1]*(canvas_width/rangex)),  canvas_top+Math.round(canvas_height-(canvas_height*((yvalues[vl]-miny)/rangey))), spotRadius, undefined, options.get('spotColor'));
             }
@@ -631,8 +631,8 @@
         }
     };
 
-    
-    /** 
+
+    /**
      * Bar charts
      */
     $.fn.sparkline.bar = function(values, options, width, height) {
@@ -677,7 +677,7 @@
 
             for(i=values.length; i--;) {
                 var x = i*(options.get('barWidth')+options.get('barSpacing')),
-                    y, 
+                    y,
                     val = values[i];
                 if (val===null) {
                     if (options.get('nullColor')) {
@@ -778,7 +778,7 @@
     };
 
 
-    /** 
+    /**
      * Discrete charts
      */
     $.fn.sparkline.discrete = function(values, options, width, height) {
@@ -817,7 +817,7 @@
             // Remove the tag contents if sparklines aren't supported
             this.innerHTML = '';
         }
-                
+
     };
 
 
@@ -827,7 +827,7 @@
     $.fn.sparkline.bullet = function(values, options, width, height) {
         values = $.map(values, Number);
         // target, performance, range1, range2, range3
-        
+
         width = options.get('width')=='auto' ? '4.0em' : width;
 
         var target = $(this).simpledraw(width, height, options.get('composite'));
@@ -980,55 +980,55 @@
             target.drawRect(
                 Math.round((q1-minvalue)*unitsize+canvas_left),
                 Math.round(canvas_height*0.1),
-                Math.round((q3-q1)*unitsize), 
-                Math.round(canvas_height*0.8), 
-                options.get('boxLineColor'), 
+                Math.round((q3-q1)*unitsize),
+                Math.round(canvas_height*0.8),
+                options.get('boxLineColor'),
                 options.get('boxFillColor'));
             // left whisker
             target.drawLine(
-                Math.round((lwhisker-minvalue)*unitsize+canvas_left), 
-                Math.round(canvas_height/2), 
-                Math.round((q1-minvalue)*unitsize+canvas_left), 
-                Math.round(canvas_height/2), 
+                Math.round((lwhisker-minvalue)*unitsize+canvas_left),
+                Math.round(canvas_height/2),
+                Math.round((q1-minvalue)*unitsize+canvas_left),
+                Math.round(canvas_height/2),
                 options.get('lineColor'));
             target.drawLine(
-                Math.round((lwhisker-minvalue)*unitsize+canvas_left), 
-                Math.round(canvas_height/4), 
-                Math.round((lwhisker-minvalue)*unitsize+canvas_left), 
-                Math.round(canvas_height-canvas_height/4), 
+                Math.round((lwhisker-minvalue)*unitsize+canvas_left),
+                Math.round(canvas_height/4),
+                Math.round((lwhisker-minvalue)*unitsize+canvas_left),
+                Math.round(canvas_height-canvas_height/4),
                 options.get('whiskerColor'));
             // right whisker
-            target.drawLine(Math.round((rwhisker-minvalue)*unitsize+canvas_left), 
-                Math.round(canvas_height/2), 
-                Math.round((q3-minvalue)*unitsize+canvas_left), 
-                Math.round(canvas_height/2), 
+            target.drawLine(Math.round((rwhisker-minvalue)*unitsize+canvas_left),
+                Math.round(canvas_height/2),
+                Math.round((q3-minvalue)*unitsize+canvas_left),
+                Math.round(canvas_height/2),
                 options.get('lineColor'));
             target.drawLine(
-                Math.round((rwhisker-minvalue)*unitsize+canvas_left), 
-                Math.round(canvas_height/4), 
-                Math.round((rwhisker-minvalue)*unitsize+canvas_left), 
-                Math.round(canvas_height-canvas_height/4), 
+                Math.round((rwhisker-minvalue)*unitsize+canvas_left),
+                Math.round(canvas_height/4),
+                Math.round((rwhisker-minvalue)*unitsize+canvas_left),
+                Math.round(canvas_height-canvas_height/4),
                 options.get('whiskerColor'));
             // median line
             target.drawLine(
-                Math.round((q2-minvalue)*unitsize+canvas_left), 
+                Math.round((q2-minvalue)*unitsize+canvas_left),
                 Math.round(canvas_height*0.1),
-                Math.round((q2-minvalue)*unitsize+canvas_left), 
+                Math.round((q2-minvalue)*unitsize+canvas_left),
                 Math.round(canvas_height*0.9),
                 options.get('medianColor'));
             if (options.get('target')) {
                 var size = Math.ceil(options.get('spotRadius'));
                 target.drawLine(
-                    Math.round((options.get('target')-minvalue)*unitsize+canvas_left), 
-                    Math.round((canvas_height/2)-size), 
-                    Math.round((options.get('target')-minvalue)*unitsize+canvas_left), 
-                    Math.round((canvas_height/2)+size), 
+                    Math.round((options.get('target')-minvalue)*unitsize+canvas_left),
+                    Math.round((canvas_height/2)-size),
+                    Math.round((options.get('target')-minvalue)*unitsize+canvas_left),
+                    Math.round((canvas_height/2)+size),
                     options.get('targetColor'));
                 target.drawLine(
-                    Math.round((options.get('target')-minvalue)*unitsize+canvas_left-size), 
-                    Math.round(canvas_height/2), 
-                    Math.round((options.get('target')-minvalue)*unitsize+canvas_left+size), 
-                    Math.round(canvas_height/2), 
+                    Math.round((options.get('target')-minvalue)*unitsize+canvas_left-size),
+                    Math.round(canvas_height/2),
+                    Math.round((options.get('target')-minvalue)*unitsize+canvas_left+size),
+                    Math.round(canvas_height/2),
                     options.get('targetColor'));
             }
         }  else {
@@ -1153,7 +1153,7 @@
             if (fillColor !== undefined) {
                 context.fill();
             }
-        }, 
+        },
 
         drawPieSlice : function(x, y, radius, startAngle, endAngle, lineColor, fillColor) {
             var context = this._getContext(lineColor, fillColor);
@@ -1173,7 +1173,7 @@
         drawRect : function(x, y, width, height, lineColor, fillColor) {
             return this.drawShape([ [x,y], [x+width, y], [x+width, y+height], [x, y+height], [x, y] ], lineColor, fillColor);
         }
-        
+
     });
 
     VCanvas_vml = function(width, height, target) {
@@ -1231,9 +1231,9 @@
                 fill +
                 ' style="position:absolute;top:'+y+'px; left:'+x+'px; width:'+(radius*2)+'px; height:'+(radius*2)+'px"></v:oval>';
             this.group.insertAdjacentHTML('beforeEnd', vel);
-            
+
         },
-        
+
         drawPieSlice : function(x, y, radius, startAngle, endAngle, lineColor, fillColor) {
             if (startAngle == endAngle) {
                 return;  // VML seems to have problem when start angle equals end angle.
@@ -1253,7 +1253,7 @@
                 return;
             }
 
-            var vpath = [  x-radius, y-radius, x+radius, y+radius, startx, starty, endx, endy ]; 
+            var vpath = [  x-radius, y-radius, x+radius, y+radius, startx, starty, endx, endy ];
             var stroke = lineColor === undefined ? ' stroked="false" ' : ' strokeWeight="1" strokeColor="'+lineColor+'" ';
             var fill = fillColor === undefined ? ' filled="false"' : ' fillColor="'+fillColor+'" filled="true" ';
             var vel = '<v:shape coordorigin="0 0" coordsize="'+this.pixel_width+' '+this.pixel_height+'" ' +
